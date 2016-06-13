@@ -3,8 +3,7 @@ module.exports = function (grunt) {
 
     const execSync = require('child_process').execSync;
 
-    grunt.registerTask('update-po-files', 'Update po files from template.pot using msgmerge', function () {
-        console.log(this.files);
+    grunt.registerMultiTask('update-po-files', 'Update po files from template.pot using msgmerge', function () {
         const msgmergeLookup = 'which msgmerge;echo $?';
         const msgmergePresent = !parseInt(execSync(msgmergeLookup, 'utf8', 10));
 
@@ -12,7 +11,7 @@ module.exports = function (grunt) {
             grunt.fatal(`msgmerge is not available on the system. Please make sure gettext is installed. You may have to do 'brew link gettext --force' if on OS X.`);
         }
 
-        const poFilesDir = this.options().poFilesDir;
+        const poFilesDir = this.filesSrc[0];
 
         // Look for all *.po files in poFilesDir and try msgmerge on them to automatically update any new translations
         const translationCommand = `find ${poFilesDir} -name \*.po -exec sh -c \

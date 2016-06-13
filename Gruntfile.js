@@ -16,10 +16,9 @@ module.exports = function (grunt) {
 
     grunt.initConfig({
         'update-po-files': {
-            options: {
-                poFilesDir: 'test-files/i18n'
-            },
-            files: ['src', 'dest']
+            all: {
+                src: 'test-files/i18n'
+            }
         },
         clean: {
             all: ['test-files/i18n/*.po']
