@@ -2,74 +2,70 @@ module.exports = function (grunt) {
 
     'use strict';
 
+    const fs = require('fs-extra');
+    const pluginList = fs.readdirSync('./grunt', 'utf8');
+
     if (grunt.option('help')) {
         // Load all tasks so they can be viewed in the help: grunt -h or --help.
         require('load-grunt-tasks')(grunt);
     } else {
         // Use jit-grunt to only load necessary tasks for each invocation of grunt.
-        require('jit-grunt')(grunt, {
+        var taskJITObject = {
             // Parse mappings for tasks whose taskname differs from its config key.
-            'update-po-files': './grunt/update-po-files.js',
-            'clean': 'grunt-contrib-clean'
+            clean: 'grunt-contrib-clean'
+        };
+
+        // Create tasks for each plugin
+        pluginList.forEach((plugin) => {
+            taskJITObject[plugin] = `./grunt/${plugin}/task.js`;
+            taskJITObject[`set-up-${plugin}`] = `./grunt/${plugin}/test.js`;
+            taskJITObject[`test-${plugin}`] = `./grunt/${plugin}/test.js`;
         });
+
+        require('jit-grunt')(grunt, taskJITObject);
     }
 
     grunt.initConfig({
+        config: {
+            files: {
+                po: '<%= config.directories.i18n %>/*.po'
+            },
+            directories: {
+                testResource: 'test-files',
+                i18n: '<%= config.directories.testResource %>/i18n',
+                sourceFiles: '<%= config.directories.testResource %>/source-files'
+            }
+        },
         'update-po-files': {
             all: {
-                src: 'test-files/i18n'
+                src: '<%= config.directories.i18n %>'
             }
         },
         clean: {
-            all: ['test-files/i18n/*.po']
+            all: ['<%= config.files.po %>']
         }
     });
 
-    grunt.registerTask('default', 'dev');
-
-    grunt.registerTask('dev', () => {
-        grunt.task.run([
-            'update-po-files'
-        ]);
-    });
+    grunt.registerTask('default', 'test');
 
     grunt.registerTask('test', () => {
         grunt.task.run([
             'clean',
-            'copy-source-files',
             'test-plugins',
             'clean'
         ]);
     });
 
-    const fs = require('fs-extra');
-    const copySync = fs.copySync;
-    const assert = require('assert');
-    const execSync = require('child_process').execSync;
-
     grunt.registerTask('test-plugins', () => {
-        const plugins = [
-            'update-po-files'
-        ];
-
         let tasksList = [];
 
-        plugins.forEach((plugin) => {
+        pluginList.forEach((plugin) => {
+            tasksList.push(`set-up-${plugin}`);
             tasksList.push(plugin);
             tasksList.push(`test-${plugin}`);
         });
 
         grunt.task.run(tasksList);
-    });
-
-    grunt.registerTask('copy-source-files', 'Prepare source files for testing', () => {
-        copySync('test-files/source-files/original.po', 'test-files/i18n/updated.po');
-    });
-
-    grunt.registerTask('test-update-po-files', () => {
-        var diffResult = execSync('diff test-files/i18n/updated.po test-files/source-files/expected.po | wc -l', {encoding: 'utf8'});
-        var diffResult = parseInt(diffResult, 10);
-        assert(diffResult === 0, `updated.po file doesn't match expected.po file`);
     });
 
 };
