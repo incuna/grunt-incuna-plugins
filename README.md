@@ -2,8 +2,8 @@
 
 A set of useful build and testing plugins easily reusable across projects.
 
-#### [Adding new plugins](#newplugins)
-#### [Plugins](#plugins)
+[Adding new plugins](#adding-new-plugins)
+[Plugins](#plugins)
 * [update-po-files](#update-po-files)
 
 ## Plugins
