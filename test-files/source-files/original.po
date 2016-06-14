@@ -14,3 +14,6 @@ msgstr ""
 
 msgid "Message 1"
 msgstr "Message 1 translation"
+
+msgid "Message 2"
+msgstr ""

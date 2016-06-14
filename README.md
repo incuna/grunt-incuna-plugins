@@ -2,7 +2,8 @@
 
 A set of useful build and testing plugins easily reusable across projects.
 
-* [Adding new plugins](#adding-new-plugins)
+* [Development](#development)
+ * [Adding new plugins](#adding-new-plugins)
 * [Plugins](#plugins)
  * [update-po-files](#update-po-files)
 
@@ -10,12 +11,15 @@ A set of useful build and testing plugins easily reusable across projects.
 
 ### `update-po-files`
 
-A plugin for automatically updating `.po` files in a given directory from a `template.pot` file in that same directory.
-Usage:
+A plugin for automatically updating specified `.po` files with a specifed `*.pot` file.
+Usage example:
 ```js
 'update-po-files': {
+    options: {
+        template: 'my-u18n-directory/template.pot'
+    },
     all: {
-        src: 'my-i18n-directory'
+        src: 'my-i18n-directory/**/*.po'
     }
 },
 ```
@@ -26,7 +30,11 @@ brew install gettext
 brew link gettext --force
 ```
 
-## Adding new plugins
+## Development
+
+Install dependencies with `npm install`. To test run `grunt test`.
+
+### Adding new plugins
 
 Each plugin should have a directory under `grunt/` with it's name (eg. `example-plugin`) and two files:
 * `task.js` which registers a grunt task under the same name as the directory (ie. `example-plugin`)

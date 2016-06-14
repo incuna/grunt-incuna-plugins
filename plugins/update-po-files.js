@@ -4,7 +4,7 @@ module.exports = function (grunt) {
 
     const execSync = require('child_process').execSync;
 
-    var task = function () {
+    const task = function () {
         const msgmergeLookup = 'which msgmerge;echo $?';
         const msgmergePresent = !parseInt(execSync(msgmergeLookup, 'utf8'), 10);
 
@@ -15,24 +15,25 @@ module.exports = function (grunt) {
             );
         }
 
-        const poFilesDir = this.filesSrc[0];
+        this.options({
+            template: 'template.pot'
+        });
 
-        const pathIsDirectory = grunt.file.isDir(poFilesDir);
-        const notOneDirectory = this.filesSrc.length !== 1;
+        const templateFile = this.options().template;
 
-        if (!pathIsDirectory || notOneDirectory) {
-            grunt.fatal(
-                'update-po-files requires one directory provided as the src path'
-            );
+        if (!this.filesSrc.length) {
+            grunt.fatal('No *.po files found');
         }
+        const poFiles = this.filesSrc.join(' ');
 
-        // Look for all *.po files in poFilesDir and try msgmerge on them
-        //  to automatically update any new translations
+        // Update all specifed *.po files and attempt to automatically update any new translations
         const msgmergeOptions = '-U --silent --backup=none --no-fuzzy-matching';
-        const translationCommand = `find ${poFilesDir} -name \*.po -exec sh -c \
-            'if msgmerge ${msgmergeOptions} "{}" ${poFilesDir}/template.pot; then \
-                echo Updated {}; \
-            fi' \\;`;
+        const translationCommand =
+            `for i in \`ls ${poFiles}\`; do
+                if msgmerge ${msgmergeOptions} "$i" ${templateFile}; then
+                    echo Updated $i
+                fi
+            done`;
 
         const msgmergeOutput = execSync(translationCommand, 'utf8');
 
@@ -41,7 +42,7 @@ module.exports = function (grunt) {
 
     grunt.registerMultiTask(
         'update-po-files',
-        'Update po files from template.pot using msgmerge',
+        'Update *.po files from a template *.pot using msgmerge',
         task
     );
 

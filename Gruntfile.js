@@ -15,8 +15,11 @@ module.exports = function (grunt) {
             }
         },
         'update-po-files': {
+            options: {
+                template: '<%= config.directories.i18n %>/template.pot'
+            },
             all: {
-                src: '<%= config.directories.i18n %>'
+                src: '<%= config.directories.i18n %>/**/*.po'
             }
         },
         clean: {
