@@ -11,7 +11,7 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('test-update-po-files', () => {
-        var diffResult = execSync(`diff ${i18nDir}/updated.po ${sourceFiles}/expected.po | wc -l`, {encoding: 'utf8'});
+        let diffResult = execSync(`diff ${i18nDir}/updated.po ${sourceFiles}/expected.po | wc -l`, {encoding: 'utf8'});
         diffResult = parseInt(diffResult, 10);
         assert(diffResult === 0, `updated.po file doesn't match expected.po file`);
     });
