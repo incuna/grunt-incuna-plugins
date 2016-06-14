@@ -21,10 +21,9 @@ module.exports = function (grunt) {
 
         const templateFile = this.options().template;
 
-        if (!this.filesSrc.length) {
-            grunt.fatal('No *.po files found');
-        }
         const poFiles = this.filesSrc.join(' ');
+
+        grunt.log.oklns(`Attempting to update ${this.filesSrc.length} file(s)`);
 
         // Update all specifed *.po files and attempt to automatically update any new translations
         const msgmergeOptions = '-U --silent --backup=none --no-fuzzy-matching';
@@ -42,7 +41,7 @@ module.exports = function (grunt) {
 
     grunt.registerMultiTask(
         'update-po-files',
-        'Update *.po files from a template *.pot using msgmerge',
+        'Update *.po files from a *.pot or *.po using msgmerge',
         task
     );
 
