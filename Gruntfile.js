@@ -11,7 +11,7 @@ module.exports = function (grunt) {
                 testResource: 'test-files',
                 i18n: '<%= config.directories.testResource %>/i18n',
                 sourceFiles: '<%= config.directories.testResource %>/source-files',
-                plugins: 'grunt'
+                plugins: 'plugins'
             }
         },
         'update-po-files': {
@@ -41,8 +41,6 @@ module.exports = function (grunt) {
     });
 
     const fs = require('fs-extra');
-    const pluginsDir = grunt.config('config.directories.plugins');
-    const pluginList = fs.readdirSync(pluginsDir, 'utf8');
 
     if (grunt.option('help')) {
         // Load all tasks so they can be viewed in the help: grunt -h or --help.
@@ -50,21 +48,12 @@ module.exports = function (grunt) {
     } else {
         // Use jit-grunt to only load necessary tasks
         //  for each invocation of grunt.
-        var taskJITObject = {
-            // Parse mappings for tasks whose taskname differs
-            //  from its config key.
-            clean: 'grunt-contrib-clean'
-        };
-
-        // Create tasks for each plugin
-        pluginList.forEach((plugin) => {
-            taskJITObject[plugin] = `./grunt/${plugin}/task.js`;
-            taskJITObject[`set-up-${plugin}`] = `./grunt/${plugin}/test.js`;
-            taskJITObject[`test-${plugin}`] = `./grunt/${plugin}/test.js`;
-        });
-
-        require('jit-grunt')(grunt, taskJITObject);
+        require('jit-grunt')(grunt);
     }
+
+    // Load all plugins and test files
+    grunt.loadTasks('./plugins');
+    grunt.loadTasks('./tests');
 
     grunt.registerTask('default', 'test');
 
@@ -79,9 +68,13 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('test-plugins', () => {
+        const pluginsDir = grunt.config('config.directories.plugins');
+        const pluginList = fs.readdirSync(pluginsDir, 'utf8');
+
         let tasksList = [];
 
-        pluginList.forEach((plugin) => {
+        pluginList.forEach((pluginFile) => {
+            let plugin = pluginFile.slice(0, -3);
             tasksList.push(`set-up-${plugin}`);
             tasksList.push(plugin);
             tasksList.push(`test-${plugin}`);
