@@ -2,7 +2,9 @@
 
 A set of useful build and testing plugins easily reusable across projects.
 
-* [Plugins](#plugins)
+#### [Adding new plugins](#newplugins)
+#### [Plugins](#plugins)
+* [update-po-files](#update-po-files)
 
 ## Plugins
 
@@ -23,3 +25,13 @@ Requires binary `msgmerge` to run, will complain if one isn't found. Because OS 
 brew install gettext
 brew link gettext --force
 ```
+
+## Adding new plugins
+
+Each plugin should have a directory under `grunt/` with it's name (eg. `example-plugin`) and two files:
+* `task.js` which registers a grunt task under the same name as the directory (ie. `example-plugin`)
+* `test.js` which registers two tasks:
+ * `set-up-example-plugin` - A pre-test setup task 
+ * `test-example-plugin` - A test task 
+
+All tests will be run automatically if using this structure
