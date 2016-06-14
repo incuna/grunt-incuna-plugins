@@ -19,6 +19,8 @@
     "fs-extra": "0.30.0",
     "grunt": "1.0.1",
     "grunt-contrib-clean": "1.0.0",
+    "grunt-contrib-jshint": "1.0.0",
+    "grunt-jscs": "3.0.0",
     "jit-grunt": "0.10.0"
   }
 }
