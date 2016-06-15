@@ -41,7 +41,7 @@ module.exports = function (grunt) {
 
     grunt.registerMultiTask(
         'update-po-files',
-        'Update *.po files from a *.pot or *.po using msgmerge',
+        'Update *.po files from a template or other *.po files using msgmerge',
         task
     );
 

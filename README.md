@@ -36,9 +36,10 @@ Install dependencies with `npm install`. To test run `grunt test`.
 
 ### Adding new plugins
 
-Each plugin should have a directory under `grunt/` with it's name (eg. `example-plugin`) and two files:
-* `task.js` which registers a grunt task under the same name as the directory (ie. `example-plugin`)
-* `test.js` which registers two tasks:
+Each plugin should consist of two files:
+
+* `example-plugin.js` in directory `plugins` which registers the task under the same name (eg. `example-plugin`)
+* `test-example-plugin.js` in directory `tests` which registers two tasks:
  * `set-up-example-plugin` - A pre-test setup task 
  * `test-example-plugin` - A test task 
 
