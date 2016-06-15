@@ -1,0 +1,27 @@
+{
+  "name": "grunt-incuna-plugins",
+  "version": "0.0.0",
+  "description": "Set of grunt plugins",
+  "scripts": {
+    "test": "grunt test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/incuna/grunt-incuna-plugins.git"
+  },
+  "author": "Incuna",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/incuna/grunt-incuna-plugins/issues"
+  },
+  "homepage": "https://github.com/incuna/grunt-incuna-plugins#readme",
+  "devDependencies": {
+    "fs-extra": "0.30.0",
+    "grunt": "1.0.1",
+    "grunt-contrib-clean": "1.0.0",
+    "grunt-contrib-jshint": "1.0.0",
+    "grunt-jscs": "3.0.0",
+    "jit-grunt": "0.10.0",
+    "load-grunt-tasks": "3.5.0"
+  }
+}
