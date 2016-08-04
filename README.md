@@ -48,9 +48,9 @@ grunt.initConfig({
 ```
 
 Arguments:
-`string` `libraryName` - required
-`string` `cwd` - defaults to `src`
-`string` `dest` - defaults to `src/scripts`
+* `string` `libraryName` - required
+* `string` `cwd` - defaults to `src`
+* `string` `dest` - defaults to `src/scripts`
 
 
 ## Development
