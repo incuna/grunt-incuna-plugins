@@ -12,7 +12,7 @@ module.exports = function (grunt) {
 
         const expectedModule1Path = 'templates/test-library/module-1/**/*.html';
         const expectedModule2Path = 'templates/test-library/module-2/**/*.html';
-        const expectedModule1Options = 'test-library-module-1';
+        const expectedModule1Options = 'test-library-module-1.templates';
 
         assert(output['module-1'], 'Module-1 is not defined in output');
         assert(output['module-2'], 'Module-2 is not defined in output');
