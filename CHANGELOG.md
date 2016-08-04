@@ -1,6 +1,6 @@
 # upcoming
 
-* Add `ng-templates-paths` plugin
+* Add `ng-templates-paths` helper function
 
 ### 1.0.0
 
