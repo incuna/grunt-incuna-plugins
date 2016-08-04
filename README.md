@@ -4,8 +4,10 @@ A set of useful build and testing plugins easily reusable across projects.
 
 * [Development](#development)
  * [Adding new plugins](#adding-new-plugins)
+ * [Adding helper functions](#adding-helper-functions)
 * [Plugins](#plugins)
  * [update-po-files](#update-po-files)
+ * [ng-templates-paths](#ng-templates-paths)
 
 ## Plugins
 
@@ -30,6 +32,27 @@ brew install gettext
 brew link gettext --force
 ```
 
+### `ng-templates-paths`
+
+A helper function to generate a config for `grunt-angular-templates`.
+
+Usage example:
+```js
+const ngTemplatesPaths = require('grunt-incuna-plugins/ng-templates-paths')();
+
+grunt.initConfig({
+    ...
+    ngtemplates: ngTemplatesPaths.generate('my-library'),
+    ...
+});
+```
+
+Arguments:
+`string` `libraryName` - required
+`string` `cwd` - defaults to `src`
+`string` `dest` - defaults to `src/scripts`
+
+
 ## Development
 
 Install dependencies with `npm install`. To test run `grunt test`.
@@ -44,3 +67,7 @@ Each plugin should consist of two files:
  * `test-example-plugin` - A test task 
 
 All tests will be run automatically if using this structure
+
+### Adding helper functions
+
+Helper functions are located in `helper-functions/`. For those a `test-` file is needed which only registers a `test-` task.
