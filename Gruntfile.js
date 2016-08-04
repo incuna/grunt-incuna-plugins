@@ -11,7 +11,8 @@ module.exports = function (grunt) {
                 testResource: 'test-files',
                 i18n: '<%= config.directories.testResource %>/i18n',
                 sourceFiles: '<%= config.directories.testResource %>/source-files',
-                plugins: 'plugins'
+                plugins: 'plugins',
+                helpers: 'helper-functions'
             }
         },
         'update-po-files': {
@@ -73,6 +74,8 @@ module.exports = function (grunt) {
     grunt.registerTask('test-plugins', () => {
         const pluginsDir = grunt.config('config.directories.plugins');
         const pluginList = fs.readdirSync(pluginsDir, 'utf8');
+        const helpersDir = grunt.config('config.directories.helpers');
+        const helpersList = fs.readdirSync(helpersDir, 'utf8');
 
         let tasksList = [];
 
@@ -81,6 +84,11 @@ module.exports = function (grunt) {
             tasksList.push(`set-up-${plugin}`);
             tasksList.push(plugin);
             tasksList.push(`test-${plugin}`);
+        });
+
+        helpersList.forEach((helperFile) => {
+            let helper = helperFile.slice(0, -3);
+            tasksList.push(`test-${helper}`);
         });
 
         grunt.task.run(tasksList);

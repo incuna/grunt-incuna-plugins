@@ -27,5 +27,7 @@ module.exports = function (grunt) {
         assert(diffResult === 0,
             `updated.po file doesn't match expected.po file`
         );
+
+        grunt.log.ok();
     });
 };
