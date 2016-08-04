@@ -17,13 +17,14 @@ module.exports = function () {
                 src: `templates/${libraryName}/${module}/**/*.html`,
                 dest: `${dest}/${module}/templates.js`,
                 options: {
-                    module: `${libraryName}-${module}`
+                    module: `${libraryName}-${module}.templates`
                 }
             };
         });
 
         ngtemplatesConfig = _.extend({
             options: {
+                standalone: true,
                 htmlmin: {
                     collapseBooleanAttributes: true,
                     collapseWhitespace: true,
