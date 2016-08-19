@@ -1,4 +1,4 @@
-# upcoming
+## 1.2.0
 
 * Add `index.js` and a `main` entry so package can be `require`d properly
 

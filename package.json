@@ -1,8 +1,8 @@
 {
   "name": "grunt-incuna-plugins",
-  "main": "index.js",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Set of grunt plugins",
+  "main": "index.js",
   "scripts": {
     "test": "grunt test"
   },
